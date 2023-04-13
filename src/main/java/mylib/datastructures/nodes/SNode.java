@@ -10,12 +10,12 @@ package mylib.datastructures.nodes;
  * Singly Linked Node class
  */
 public class SNode {
-    private int data;
-    private SNode next;
+    private int data;   // data stored in the node
+    private SNode next; // reference to the next node
     
     /**
      * Constructor
-     * @param data int data in the node
+     * @param data int data to be stored in the node
      */
     public SNode(int data) {
         this.data = data;
@@ -53,4 +53,4 @@ public class SNode {
     public void setNext(SNode next) {
         this.next = next;
     } 
-}
+} // End of class declaration

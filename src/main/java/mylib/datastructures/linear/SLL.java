@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.2
+@version 1.3
 @since   1.0
 */
 
@@ -12,8 +12,8 @@ import mylib.datastructures.nodes.SNode;
  * Singly Linked List class
  */
 public class SLL {
-    private SNode head;
-    private SNode tail;
+    protected SNode head;
+    protected SNode tail;
     private int size;
 
     /**
@@ -99,7 +99,7 @@ public class SLL {
             insertHead(node);
             return;
         }
-        if (isSorted() == false) {
+        if (!isSorted()) {
             sort();
         }
         SNode current = head;
@@ -289,4 +289,28 @@ public class SLL {
         }
         return true;
     }
-}
+
+    /**
+     * Getter for head
+     * @return head
+     */
+    public SNode getHead() {
+        return this.head;
+    }
+
+    /**
+     * Getter for tail
+     * @return tail
+     */
+    public SNode getTail() {
+        return this.tail;
+    }
+
+    /**
+     * Getter for size
+     * @return size
+     */
+    public int getSize() {
+        return this.size;
+    }
+} // End of class declaration
