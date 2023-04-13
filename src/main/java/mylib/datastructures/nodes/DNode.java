@@ -10,7 +10,7 @@ package mylib.datastructures.nodes;
  * Doubly Linked Node class
  */
 public class DNode {
-    private int data; // data stored in the node
+    private int data;   // data stored in the node
     private DNode prev; // reference to the previous node
     private DNode next; // reference to the next node
 
@@ -25,7 +25,7 @@ public class DNode {
     }
 
     /**
-     * Getter for data (gets the data stored in the node)
+     * Getter for data
      * @return data
      */
     public int getData() {
@@ -71,4 +71,4 @@ public class DNode {
     public void setNext(DNode next) {
         this.next = next;
     }
-}
+} // End of class declaration

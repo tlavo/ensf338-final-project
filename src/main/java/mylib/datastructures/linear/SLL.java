@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.2
+@version 1.5
 @since   1.0
 */
 
@@ -12,9 +12,9 @@ import mylib.datastructures.nodes.SNode;
  * Singly Linked List class
  */
 public class SLL {
-    private SNode head;
-    private SNode tail;
-    private int size;
+    protected SNode head;
+    protected SNode tail;
+    protected int size;
 
     /**
      * Default Constructor
@@ -99,7 +99,7 @@ public class SLL {
             insertHead(node);
             return;
         }
-        if (isSorted() == false) {
+        if (!isSorted()) {
             sort();
         }
         SNode current = head;
@@ -119,8 +119,8 @@ public class SLL {
      */
     public SNode search(SNode node) {
         SNode current = head;
-        while (current != null) {
-            if (current.getData() == node.getData()) {
+        for(int i = 0; i < size; i++) {
+            if (current == node) {
                 return current;
             }
             current = current.getNext();
@@ -145,7 +145,7 @@ public class SLL {
      * Delete tail node
      */
     public void deleteTail() {
-        if (size == 0) {
+        if (isEmpty()) {
             System.out.println("The list is empty. Nothing to delete.");
             return;
         }
@@ -173,7 +173,7 @@ public class SLL {
      * @param node a SNode object
      */
     public void delete(SNode node) {
-        if (size == 0) {
+        if (isEmpty()) {
             System.out.println("The list is empty. Nothing to delete.");
             return;
         }
@@ -210,29 +210,34 @@ public class SLL {
         * Instead of tracking back the list
      */
     public void sort() {
-        if (this.size == 0) {
-            System.out.println("The list is empty. Nothing to sort.");
+        if (head == null || head.getNext() == null) {
+            // If the list is empty or has only one element, it is considered sorted
             return;
         }
-        if (size == 1 || isSorted()) {
-            System.out.println("The list is already sorted.");
-            return;
+
+        SNode sortedList = null;
+        SNode current = head;
+        for(int i = 0; i < size; i++){
+            SNode next = current.getNext();
+            if(sortedList == null || current.getData() < (sortedList.getData())) {
+                current.setNext(sortedList);
+                sortedList = current;
+            } else {
+                SNode prev = sortedList;
+                while(prev.getNext() != null && prev.getNext().getData() < (current.getData())) {
+                    prev = prev.getNext();
+                }
+                current.setNext(prev.getNext());
+                prev.setNext(current);
+            }
+            current = next;
         }
-        // create a new list with the first element
-        SLL sortedList = new SLL(head);
-        SNode curr = head.getNext();
-        // traverse the remaining elements in the original list
-        while (curr != null) {
-            // remove the current node from the original list
-            SNode temp = curr;
-            curr = curr.getNext();
-            temp.setNext(null);
-            // insert the current node in its proper position in the sorted list
-            sortedList.sortedInsert(temp);
+        head = sortedList;
+        current = head;
+        while(current.getNext() != null){
+            current = current.getNext();
         }
-        // update the pointers of the original list to point to the sorted list
-        head = sortedList.head;
-        tail = sortedList.tail;
+        tail = current;
     }
 
     /**
@@ -253,11 +258,11 @@ public class SLL {
     public void print() {
         // Print the length of the list
         System.out.println("List length: " + size);
-
+    
         // Check if the list is sorted and print the status
         boolean isSorted = isSorted();
         System.out.println("Sorted status: " + (isSorted ? "sorted" : "unsorted"));
-
+    
         // Print the content of the list
         if (head == null) {
             System.out.println("List is empty.");
@@ -265,8 +270,11 @@ public class SLL {
             System.out.print("List content: ");
             SNode current = head;
             while (current != null) {
-                System.out.print(current.getData() + " ");
+                System.out.print(current.getData());
                 current = current.getNext();
+                if (current != null) {
+                    System.out.print(" ");
+                }
             }
             System.out.println();
         }
@@ -276,12 +284,12 @@ public class SLL {
      * Helper function to check if the list is sorted in ascending order
      * @return true if sorted, false otherwise
      */
-    private boolean isSorted() {
+    public boolean isSorted() {
         if (head == null || head.getNext() == null) {
             return true;
         }
         SNode current = head;
-        while (current.getNext() != null) {
+        while (current != tail) {
             if (current.getData() > current.getNext().getData()) {
                 return false;
             }
@@ -289,4 +297,36 @@ public class SLL {
         }
         return true;
     }
-}
+
+    /**
+     * Helper function to check if list is empty
+     * @return true if empty, false otherwise
+     */
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    /**
+     * Getter for head
+     * @return head
+     */
+    public SNode getHead() {
+        return this.head;
+    }
+
+    /**
+     * Getter for tail
+     * @return tail
+     */
+    public SNode getTail() {
+        return this.tail;
+    }
+
+    /**
+     * Getter for size
+     * @return size
+     */
+    public int getSize() {
+        return this.size;
+    }
+} // End of class declaration
