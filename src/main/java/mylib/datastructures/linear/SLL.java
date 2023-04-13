@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.3
+@version 1.5
 @since   1.0
 */
 
@@ -119,8 +119,8 @@ public class SLL {
      */
     public SNode search(SNode node) {
         SNode current = head;
-        while (current != null) {
-            if (current.getData() == node.getData()) {
+        for(int i = 0; i < size; i++) {
+            if (current == node) {
                 return current;
             }
             current = current.getNext();
@@ -145,7 +145,7 @@ public class SLL {
      * Delete tail node
      */
     public void deleteTail() {
-        if (size == 0) {
+        if (isEmpty()) {
             System.out.println("The list is empty. Nothing to delete.");
             return;
         }
@@ -173,7 +173,7 @@ public class SLL {
      * @param node a SNode object
      */
     public void delete(SNode node) {
-        if (size == 0) {
+        if (isEmpty()) {
             System.out.println("The list is empty. Nothing to delete.");
             return;
         }
@@ -209,35 +209,35 @@ public class SLL {
      * The insertion part will start from the head unlike the usual insertion sort algorithm:
         * Instead of tracking back the list
      */
-    public void sort(){
+    public void sort() {
         if (head == null || head.getNext() == null) {
             // If the list is empty or has only one element, it is considered sorted
             return;
         }
 
         SNode sortedList = null;
-        SNode curNode = head;
+        SNode current = head;
         for(int i = 0; i < size; i++){
-            SNode next = curNode.getNext();
-            if(sortedList == null || curNode.getData() < (sortedList.getData())) {
-                curNode.setNext(sortedList);
-                sortedList = curNode;
+            SNode next = current.getNext();
+            if(sortedList == null || current.getData() < (sortedList.getData())) {
+                current.setNext(sortedList);
+                sortedList = current;
             } else {
-                SNode prevNode = sortedList;
-                while(prevNode.getNext() != null && prevNode.getNext().getData() < (curNode.getData())) {
-                    prevNode = prevNode.getNext();
+                SNode prev = sortedList;
+                while(prev.getNext() != null && prev.getNext().getData() < (current.getData())) {
+                    prev = prev.getNext();
                 }
-                curNode.setNext(prevNode.getNext());
-                prevNode.setNext(curNode);
+                current.setNext(prev.getNext());
+                prev.setNext(current);
             }
-            curNode = next;
+            current = next;
         }
         head = sortedList;
-        curNode = head;
-        while(curNode.getNext() != null){
-            curNode = curNode.getNext();
+        current = head;
+        while(current.getNext() != null){
+            current = current.getNext();
         }
-        tail = curNode;
+        tail = current;
     }
 
     /**
@@ -296,6 +296,14 @@ public class SLL {
             current = current.getNext();
         }
         return true;
+    }
+
+    /**
+     * Helper function to check if list is empty
+     * @return true if empty, false otherwise
+     */
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     /**
