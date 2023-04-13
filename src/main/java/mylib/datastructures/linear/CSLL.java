@@ -14,7 +14,6 @@ public class CSLL extends SLL {
      */
     public CSLL() {
         super();
-        head.setNext(tail);
     }
 
     /**
@@ -33,7 +32,9 @@ public class CSLL extends SLL {
     @Override
     public void insertHead(SNode node) {
         super.insertHead(node);
-        tail.setNext(head);
+        if (tail != null) {
+            tail.setNext(head);
+        }
     }
 
     /**
@@ -43,14 +44,16 @@ public class CSLL extends SLL {
     @Override
     public void insertTail(SNode node) {
         super.insertTail(node);
-        tail.setNext(head);
+        if (tail != null) {
+            tail.setNext(head);
+        }
     }
 
     /**
      * Calls super.sort() and sets tail.next as the head
      */
     @Override
-    public void sort() {
+    public void sort(){
         super.sort();
         if (tail != null) {
             tail.setNext(head);

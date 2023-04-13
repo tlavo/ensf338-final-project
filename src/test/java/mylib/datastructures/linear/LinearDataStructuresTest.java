@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.1
+@version 1.3
 @since   1.0
 */
 
@@ -8,12 +8,10 @@ package mylib.datastructures.linear;
 
 import mylib.datastructures.nodes.SNode;
 import static org.junit.Assert.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import org.junit.Test;
 import org.junit.Before;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Unit tests for all linear datastructures:
@@ -135,20 +133,17 @@ public class LinearDataStructuresTest {
      * SLL Sort test
      */
     @Test
-    public void testSort() {
+    public void testSLLSort() {
         // Create an unsorted list
         SLL list = new SLL();
         list.insertTail(new SNode(4));
         list.insertTail(new SNode(2));
         list.insertTail(new SNode(1));
         list.insertTail(new SNode(3));
-    
         // Sort the list
         list.sort();
-    
         // Check that the list is sorted
         assertTrue(list.isSorted());
-    
         // Check that the list is in ascending order
         SNode current = list.getHead();
         int prevData = current.getData();
@@ -164,7 +159,7 @@ public class LinearDataStructuresTest {
      * SLL Clear tests
      */
     @Test
-    public void testClear() {
+    public void testSLLClear() {
         SNode node1 = new SNode(1);
         SNode node2 = new SNode(2);
         SLL list = new SLL(node1);
@@ -176,10 +171,10 @@ public class LinearDataStructuresTest {
     }
     
     /**
-     * SLL Print tests
+     * SLL Print test
      */
     @Test
-    public void testPrint() {
+    public void testSLLPrint() {
         SLL list = new SLL();
         SNode node1 = new SNode(1);
         SNode node2 = new SNode(2);
@@ -195,5 +190,109 @@ public class LinearDataStructuresTest {
     }
 
     
-// SLL Tests---------------------------------------------------------------------------->
+// DLL Tests---------------------------------------------------------------------------->
+// ADD IN ONCE IMPLEMENTED DLL
+
+
+// CSLL Tests--------------------------------------------------------------------------->
+    /**
+     * CSLL Constructors tests
+     */
+    @Test // default
+    public void testCSLLDefaultConstructor() {
+        CSLL list = new CSLL();
+        assertEquals(0, list.getSize());
+        assertNull(list.getHead());
+        assertNull(list.getTail());
+    }
+    @Test // overloaded
+    public void testCSLLOverloadedConstructor() {
+        SNode node = new SNode(1);
+        CSLL list = new CSLL(node);
+        assertEquals(1, list.getSize());
+        assertNotNull(list.getHead());
+        assertNotNull(list.getTail());
+        assertEquals(node, list.getHead());
+        assertEquals(node, list.getTail());
+    }
+
+    /**
+     * CSLL Insert tests
+     */
+    @Test // insertHead()
+    public void testCSLLInsertHead() {
+        CSLL list = new CSLL();
+        SNode node = new SNode(1);
+        list.insertHead(node);
+        assertEquals(1, list.getSize());
+        assertNotNull(list.getHead());
+        assertNotNull(list.getTail());
+        assertEquals(node, list.getHead());
+        assertEquals(node, list.getTail().getNext());
+    }
+    @Test // insertTail()
+    public void testCSLLInsertTail() {
+        CSLL list = new CSLL();
+        SNode node = new SNode(1);
+        list.insertTail(node);
+        assertEquals(1, list.getSize());
+        assertNotNull(list.getHead());
+        assertNotNull(list.getTail());
+        assertEquals(node, list.getTail());
+        assertEquals(node, list.getHead().getNext());
+    }
+
+    /**
+     * CSLL Sort test
+     */
+    @Test
+    public void testCSLLSort() {
+        // Create an unsorted list
+        CSLL list = new CSLL();
+        list.insertHead(new SNode(2));
+        list.insertHead(new SNode(4));
+        list.insertHead(new SNode(1));
+        list.insertHead(new SNode(3));
+        // Sort the list
+        list.sort();
+        // Check that the list is sorted
+        assertTrue(list.isSorted());
+        // Check that the list is in ascending order
+        assertEquals(4, list.getSize());
+        assertEquals(1, list.getHead().getData());
+        assertEquals(4, list.getTail().getData());
+        assertEquals(list.getHead(), list.getTail().getNext());
+    }
+
+    /**
+     * CSLL Delete tests
+     */
+    @Test // deleteHead()
+    public void testCSLLDeleteHead() {
+        CSLL list = new CSLL();
+        SNode node1 = new SNode(1);
+        SNode node2 = new SNode(2);
+        list.insertHead(node2);
+        list.insertHead(node1);
+        list.deleteHead();
+        assertEquals(1, list.getSize());
+        assertNotNull(list.getHead());
+        assertNotNull(list.getTail());
+        assertEquals(node2, list.getHead());
+        assertEquals(node2, list.getTail().getNext());
+    }
+    @Test // deleteTail()
+    public void testCSLLDeleteTail() {
+        CSLL list = new CSLL();
+        SNode node1 = new SNode(1);
+        SNode node2 = new SNode(2);
+        list.insertHead(node2);
+        list.insertHead(node1);
+        list.deleteTail();
+        assertEquals(1, list.getSize());
+        assertNotNull(list.getHead());
+        assertNotNull(list.getTail());
+        assertEquals(node1, list.getHead());
+        assertEquals(node1, list.getTail().getNext());
+    }
 }

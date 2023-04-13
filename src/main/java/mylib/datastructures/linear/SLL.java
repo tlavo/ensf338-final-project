@@ -14,7 +14,7 @@ import mylib.datastructures.nodes.SNode;
 public class SLL {
     protected SNode head;
     protected SNode tail;
-    private int size;
+    protected int size;
 
     /**
      * Default Constructor
@@ -209,39 +209,35 @@ public class SLL {
      * The insertion part will start from the head unlike the usual insertion sort algorithm:
         * Instead of tracking back the list
      */
-    public void sort() {
-        if (head == null) {
+    public void sort(){
+        if (head == null || head.getNext() == null) {
+            // If the list is empty or has only one element, it is considered sorted
             return;
         }
-        SNode newHead = null;
-        SNode current = head;
-        while (current != null) {
-            SNode next = current.getNext();
-            if (newHead == null || current.getData() < newHead.getData()) {
-                current.setNext(newHead);
-                newHead = current;
+
+        SNode sortedList = null;
+        SNode curNode = head;
+        for(int i = 0; i < size; i++){
+            SNode next = curNode.getNext();
+            if(sortedList == null || curNode.getData() < (sortedList.getData())) {
+                curNode.setNext(sortedList);
+                sortedList = curNode;
             } else {
-                SNode temp = newHead;
-                while (temp.getNext() != null && current.getData() > temp.getNext().getData()) {
-                    temp = temp.getNext();
+                SNode prevNode = sortedList;
+                while(prevNode.getNext() != null && prevNode.getNext().getData() < (curNode.getData())) {
+                    prevNode = prevNode.getNext();
                 }
-                current.setNext(temp.getNext());
-                temp.setNext(current);
+                curNode.setNext(prevNode.getNext());
+                prevNode.setNext(curNode);
             }
-            current = next;
+            curNode = next;
         }
-        head = newHead;
-        SNode tail = newHead;
-        while (tail.getNext() != null) {
-            tail = tail.getNext();
+        head = sortedList;
+        curNode = head;
+        while(curNode.getNext() != null){
+            curNode = curNode.getNext();
         }
-        this.tail = tail;
-        size = 0;
-        current = head;
-        while (current != null) {
-            size++;
-            current = current.getNext();
-        }
+        tail = curNode;
     }
 
     /**
@@ -293,7 +289,7 @@ public class SLL {
             return true;
         }
         SNode current = head;
-        while (current.getNext() != null) {
+        while (current != tail) {
             if (current.getData() > current.getNext().getData()) {
                 return false;
             }
