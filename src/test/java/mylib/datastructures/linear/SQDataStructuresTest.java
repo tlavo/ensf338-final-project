@@ -8,6 +8,8 @@ package mylib.datastructures.linear;
 
 import mylib.datastructures.nodes.SNode;
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -19,7 +21,86 @@ import java.io.PrintStream;
 public class SQDataStructuresTest {
 // StackLL Tests------------------------------------------------------------------------>
 // ADD IN ONCE IMPLEMENTED StackLL
+private StackLL stack;
 
+@Before
+public void setUpStackLL() {
+    stack = new StackLL();
+}
+
+@Test
+public void testStackLLPush() {
+    SNode node1 = new SNode(1);
+    SNode node2 = new SNode(2);
+
+    stack.push(node1);
+    stack.push(node2);
+
+    assertEquals(node2, stack.peek());
+    assertEquals(2, stack.getSize());
+}
+
+@Test
+public void testStackLLPop() {
+    SNode node1 = new SNode(1);
+    SNode node2 = new SNode(2);
+
+    stack.push(node1);
+    stack.push(node2);
+
+    SNode poppedNode = stack.pop();
+
+    assertEquals(node2, poppedNode);
+    assertEquals(1, stack.getSize());
+}
+
+@Test
+public void testStackLLPeek() {
+    SNode node1 = new SNode(1);
+    SNode node2 = new SNode(2);
+
+    stack.push(node1);
+    stack.push(node2);
+
+    SNode peekedNode = stack.peek();
+
+    assertEquals(node2, peekedNode);
+    assertEquals(2, stack.getSize());
+}
+
+@Test
+public void testStackLLEmpty() {
+    assertTrue(stack.empty());
+
+    SNode node1 = new SNode(1);
+    stack.push(node1);
+
+    assertFalse(stack.empty());
+}
+
+/**
+ * StackLL Print test
+ */
+@Test
+public void testStackLLPrint() {
+    SNode node1 = new SNode(1);
+    SNode node2 = new SNode(2);
+    
+    StackLL stack = new StackLL();
+    stack.push(node1);
+    stack.push(node2);
+
+    // Redirect stdout to capture printed output
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outContent));
+
+    stack.print();
+
+    String expectedOutput = "List length: 2" + System.lineSeparator() + 
+                            "Sorted status: unsorted" + System.lineSeparator() +
+                            "List content: 2 1" + System.lineSeparator();
+    assertEquals(expectedOutput, outContent.toString());
+}
 
 // QueueLL Tests------------------------------------------------------------------------>
     /**

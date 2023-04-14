@@ -1,7 +1,7 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
 @version 1.2
-@since   1.0
+@since   1.5
 */
 
 package mylib.datastructures.linear;
@@ -12,9 +12,9 @@ import mylib.datastructures.nodes.DNode;
  * Doubly Linked List class
  */
 public class DLL {
-    private DNode head;
-    private DNode tail;
-    private int size;
+    protected DNode head;
+    protected DNode tail;
+    protected int size;
 
     /**
      * Default constructor
@@ -163,16 +163,18 @@ public class DLL {
      * Deletes head node
      */
     public void deleteHead() {
-        if (head == null) {
-            throw new IndexOutOfBoundsException();
+        if (head == null){
+            return;
         }
-        head = head.getNext();
-        if (head != null) {
-            head.setPrev(null);
-        }
-        size--;
-        if (head == null) {
+        if (head == tail) {
+            head = null;
             tail = null;
+            size = 0; 
+        }
+        else {
+            head = head.getNext();
+            head.setPrev(null);
+            size--;
         }
     }
 
@@ -230,46 +232,35 @@ public class DLL {
     }
 
     /**
-     * Sorts the list
+     * Sorts the list (insertion sort method)
      */
     public void sort() {
-        if (head == null) {
+        if (head == null || head.getNext() == null) {
+            // Empty list or only one element, no need to sort
             return;
         }
-        DNode newHead = null;
-        DNode current = head;
+
+        DNode current = head.getNext();
         while (current != null) {
-            DNode next = current.getNext();
-            if (newHead == null || current.getData() < newHead.getData()) {
-                current.setNext(newHead);
-                current.setPrev(null);
-                newHead = current;
-            } else {
-                DNode temp = newHead;
-                while (temp.getNext() != null && current.getData() > temp.getNext().getData()) {
-                    temp = temp.getNext();
-                }
-                current.setNext(temp.getNext());
-                current.setPrev(temp);
-                if (temp.getNext() != null) {
-                    temp.getNext().setPrev(current);
-                }
-                temp.setNext(current);
+            DNode key = current;
+            DNode prev = current.getPrev();
+
+            // Compare key with previous elements and swap if necessary
+            while (prev != null && prev.getData() > key.getData()) {
+                swap(prev, key);
+                key = prev;
+                prev = prev.getPrev();
             }
-            current = next;
-        }
-        head = newHead;
-        DNode tail = newHead;
-        while (tail.getNext() != null) {
-            tail = tail.getNext();
-        }
-        this.tail = tail;
-        size = 0;
-        current = head;
-        while (current != null) {
-            size++;
+
             current = current.getNext();
         }
+    }
+
+    // Helper method to swap two nodes in the doubly linked list (for insertion sort)
+    private void swap(DNode node1, DNode node2) {
+        int temp = node1.getData();
+        node1.setData(node2.getData());
+        node2.setData(temp);
     }
 
     /**
@@ -351,4 +342,5 @@ public class DLL {
     public int getSize() {
         return this.size;
     }
+
 } // End of class declaration
