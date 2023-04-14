@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.1
+@version 1.2
 @since   1.0
 */
 
@@ -9,10 +9,12 @@ package mylib.datastructures.nodes;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
- * Unit tests for all nodes datastructures
-    * SNode, DNode, and TNode
+ * Unit tests for all node datastructures
+    * SNode, DNode, TNode
  */
 public class NodesDataStructuresTest {
     private SNode snode1;
@@ -87,7 +89,7 @@ public class NodesDataStructuresTest {
      * DNode Constructor test
      */
     @Test
-    public void testConstructor() {
+    public void testDNodeConstructor() {
         // Create a new node with data 5
         DNode node = new DNode(5);
         // Check that the node data was set correctly
@@ -157,5 +159,171 @@ public class NodesDataStructuresTest {
 
 
 // TNode Tests-------------------------------------------------------------------------->
-// ADD IN ONCE IMPLEMENTED TNode
-}
+    /**
+     * TNode Constructor tests
+     */
+    @Test // default
+    public void testTNodeDefaultConstructor() {
+        TNode node = new TNode();
+        assertEquals(0, node.getData());
+        assertNull(node.getLeft());
+        assertNull(node.getRight());
+        assertNull(node.getParent());
+        assertEquals(0, node.getBalance());
+    }
+    @Test // overloaded
+    public void testTNodeOverloadedConstructor() {
+        TNode parent = new TNode();
+        TNode left = new TNode();
+        TNode right = new TNode();
+        TNode node = new TNode(5, 1, parent, left, right);
+        assertEquals(5, node.getData());
+        assertEquals(1, node.getBalance());
+        assertEquals(parent, node.getParent());
+        assertEquals(left, node.getLeft());
+        assertEquals(right, node.getRight());
+    }
+
+    /**
+     * TNode getData() test
+     */  
+    @Test
+    public void testTNodeGetData() {
+        TNode node = new TNode(10, 0, null, null, null);
+        assertEquals(10, node.getData());
+    }
+
+    /**
+     * TNode setData() test
+     */  
+    @Test
+    public void testTNodeSetData() {
+        TNode node = new TNode(10, 0, null, null, null);
+        node.setData(20);
+        assertEquals(20, node.getData());
+    }
+
+    /**
+     * TNode getLeft() test
+     */  
+    @Test
+    public void testTNodeGetLeft() {
+        TNode left = new TNode(5, 0, null, null, null);
+        TNode node = new TNode(10, 0, null, left, null);
+        assertEquals(left, node.getLeft());
+    }
+
+    /**
+     * TNode setLeft() test
+     */  
+    @Test
+    public void testTNodeSetLeft() {
+        TNode left = new TNode(5, 0, null, null, null);
+        TNode node = new TNode(10, 0, null, null, null);
+        node.setLeft(left);
+        assertEquals(left, node.getLeft());
+    }
+
+    /**
+     * TNode getRight() test
+     */  
+    @Test
+    public void testTNodeGetRight() {
+        TNode right = new TNode(15, 0, null, null, null);
+        TNode node = new TNode(10, 0, null, null, right);
+        assertEquals(right, node.getRight());
+    }
+
+    /**
+     * TNode setRight() test
+     */ 
+    @Test
+    public void testTNodeSetRight() {
+        TNode right = new TNode(15, 0, null, null, null);
+        TNode node = new TNode(10, 0, null, null, null);
+        node.setRight(right);
+        assertEquals(right, node.getRight());
+    }
+
+    /**
+     * TNode getParent() test
+     */ 
+    @Test
+    public void testTNodeGetParent() {
+        TNode parent = new TNode(5, 0, null, null, null);
+        TNode node = new TNode(10, 0, parent, null, null);
+        assertEquals(parent, node.getParent());
+    }
+
+    /**
+     * TNode setParent() test
+     */ 
+    @Test
+    public void testTNodeSetParent() {
+        TNode parent = new TNode(5, 0, null, null, null);
+        TNode node = new TNode(10, 0, null, null, null);
+        node.setParent(parent);
+        assertEquals(parent, node.getParent());
+    }
+
+    /**
+     * TNode getBalance() test
+     */ 
+    @Test
+    public void testTNodeGetBalance() {
+        TNode node = new TNode(10, 1, null, null, null);
+        assertEquals(1, node.getBalance());
+    }
+
+    /**
+     * TNode setBalance() test
+     */ 
+    @Test
+    public void testTNodeSetBalance() {
+        TNode node = new TNode(10, 0, null, null, null);
+        node.setBalance(1);
+        assertEquals(1, node.getBalance());
+    }
+
+    /**
+     * TNode Print test
+     */ 
+    @Test
+    public void testTNodePrint() {
+        TNode node1 = new TNode(5, 0, null, null, null);
+        TNode node2 = new TNode(10, 0, node1, null, null);
+        TNode node3 = new TNode(3, 0, node1, null, null);
+        node1.setLeft(node3);
+        node1.setRight(node2);
+
+        // Expected output when calling node1.print()
+        String expectedOutput = "Node data: 5" + System.lineSeparator() +
+                                "Left child: 3" + System.lineSeparator() +
+                                "Right child: 10" + System.lineSeparator() +
+                                "No parent" + System.lineSeparator() +
+                                "Balance: 0" + System.lineSeparator();
+        
+        // Redirect System.out to a string buffer
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        // Call node1.print() and get the printed output
+        node1.print();
+        String printedOutput = outputStream.toString();
+
+        // Reset System.out
+        System.setOut(System.out);
+
+        // Compare the expected output with the printed output
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    /**
+     * TNode toString() test
+     */ 
+    @Test
+    public void testToString() {
+        TNode node = new TNode(42, 0, null, null, null);
+        assertEquals("42", node.toString());
+    }
+} // End of class declaration
