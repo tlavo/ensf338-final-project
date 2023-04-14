@@ -88,42 +88,43 @@ public class DLLDataStructuresTest {
     @Test
     public void testDLLSearch() {
         DLL list = new DLL();
-        DNode node = new DNode(1);
+        DNode node1 = new DNode(1);
+        DNode node2 = new DNode(2);
+        
 
-        assertNull(list.search(node));
+        assertNull(list.search(node2));
 
-        list.insertHead(node);
-        assertEquals(node, list.search(node));
+        list.insertHead(node1);
+        list.insertTail(node2);
+        assertEquals(node2, list.search(node2));
     }
 
     /**
      * DLL Delete tests
      */
-    @Test // deleteHead()
-    public void testDLLDeleteHead() { // FIXXXXXXXXXXXXXXXXXXXXX
+    @Test //deleteHead()
+    public void testDLLDeleteHead() {
         DLL list = new DLL();
         DNode node1 = new DNode(1);
         DNode node2 = new DNode(2);
-
         list.insertHead(node1);
-        list.insertHead(node2);
-
+        list.insertTail(node2);
         list.deleteHead();
-
-        assertNull(list.search(node2));
-        assertEquals(node1, list.search(node1));
+        assertEquals(1, list.getSize());
+        assertEquals(node2, list.getHead());
+        assertNull(node2.getPrev());
+        assertNull(node2.getNext());
     }
+
+
     @Test // deleteTail()
     public void testDLLDeleteTail() {
         DLL list = new DLL();
         DNode node1 = new DNode(1);
         DNode node2 = new DNode(2);
-
         list.insertHead(node1);
         list.insertHead(node2);
-
         list.deleteTail();
-
         assertNull(list.search(node1));
         assertEquals(node2, list.search(node2));
     }
@@ -146,22 +147,32 @@ public class DLLDataStructuresTest {
      * DLL Sort test
      */
     @Test
-    public void testDLLSort() { // FIXXXXXXXXXXXXXXXXXXXXX
+    public void testDLLSort() { 
         DLL list = new DLL();
-        DNode node1 = new DNode(1);
+        DNode node1 = new DNode(5);
         DNode node2 = new DNode(2);
-        DNode node3 = new DNode(3);
+        DNode node3 = new DNode(8);
+        DNode node4 = new DNode(1);
+        DNode node5 = new DNode(7);
 
-        list.insertHead(node1);
-        list.insertHead(node2);
-        list.insertHead(node3);
+        // Insert elements in random order
+        list.insertTail(node1); //5
+        list.insertTail(node2); //2
+        list.insertTail(node3); //8
+        list.insertTail(node4); //1
+        list.insertTail(node5); //7
 
+        // Sort the list
         list.sort();
 
-        assertEquals(node1, list.search(node1));
-        assertEquals(node2, list.search(node2));
-        assertEquals(node3, list.search(node3));
+        // Expected sorted list: 1 -> 2 -> 5 -> 7 -> 8
+        assertEquals(1, list.getHead().getData());
+        assertEquals(2, list.getHead().getNext().getData());
+        assertEquals(5, list.getHead().getNext().getNext().getData());
+        assertEquals(7, list.getHead().getNext().getNext().getNext().getData());
+        assertEquals(8, list.getTail().getData());
     }
+    
 
     /**
      * DLL Clear tests
