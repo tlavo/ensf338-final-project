@@ -73,8 +73,8 @@ public class DLL {
      * @param node a DNode object
      * @param position
      */
-    public void insert(DNode node, int position) {
-        if (position < 0 || position > size) {
+    public void insert(DNode node, int position)  {
+        if (position < 0 || position > size)  {
             throw new IndexOutOfBoundsException();
         }
         if (position == 0) {
@@ -86,14 +86,12 @@ public class DLL {
             for (int i = 0; i < position; i++) {
                 current = current.getNext();
             }
-            node.setNext(current.getNext());
-            node.setPrev(current);
-            current.getNext().setPrev(node);
-            current.setNext(node);
+            node.setPrev(current.getPrev());
+            node.setNext(current);
+            current.getPrev().setNext(node);
+            current.setPrev(node);
             size++;
-
         }
-        head.setNext(null);
     }
 
     /**
@@ -101,26 +99,47 @@ public class DLL {
      * Thus it checks for list sort validity
      * @param node a DNode object
      */
-    public void sortedInsert(DNode node) {
-        if (!isSorted()) {
-        sort();
+    public void sortedInsert(DNode newNode) {
+        if(!isSorted()){
+            sort();
         }
-        DNode current = head;
-        DNode prev = null;
-        while (current != null && current.getData() < node.getData()) {
-            prev = current;
-            current = current.getNext();
+
+        // If the list is empty, insert the new node as the head
+        if (head == null) {
+            insertHead(newNode);
+            return;
         }
-        if (prev == null) {
-            insertHead(node);
-        } else {
-            node.setNext(current);
-            node.setPrev(prev);
-            prev.setNext(node);
-            current.setPrev(node);
-            size++;
+    
+        // If the new node is less than the head node, insert it at the head
+        if (newNode.getData() < (head.getData())) {
+            insertHead(newNode);
+            return;
         }
-        head.setNext(null);
+    
+        // If the new node is greater than the tail node, insert it at the tail
+        if (newNode.getData() < (tail.getData())) {
+            insertTail(newNode);
+            return;
+        }
+
+        if(newNode.getData() < (tail.getData())){
+            insertTail(newNode);
+        }
+    
+        // Search for the correct position to insert the new node
+        DNode currNode = head.getNext();
+        while (currNode != tail.getNext() && newNode.getData() < (currNode.getData())) {
+            currNode = currNode.getNext();
+        }
+    
+        // Insert the new node before the current node
+        DNode prevNode = currNode.getPrev();
+        newNode.setPrev(prevNode);
+        newNode.setNext(currNode);
+        currNode.setPrev(newNode);
+        prevNode.setNext(newNode);
+    
+        size++;
     }
 
     /**
@@ -254,38 +273,48 @@ public class DLL {
     }
 
     /**
-     * Clears the whole list
-     * @param node
+     * Deletes the whole list
      */
-    public void clear(DNode node) {
-        if (node != null) {
-            clear(node.getNext());
-            node.setNext(null);
-            node.setPrev(null);
-        }
+    public void clear() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
     }
 
     /**
      * Prints the list that includes the size, sorted status, and the list
      */
     public void print() {
-        System.out.println("Sorted: " + isSorted());
-        System.out.println("Size: " + size);
-        DNode current = head;
-        System.out.print("List: ");
-        while (current != null) {
-            System.out.print(current.getData() + " ");
-            current = current.getNext();
+        // Print the length of the list
+        System.out.println("List length: " + size);
+    
+        // Check if the list is sorted and print the status
+        boolean isSorted = isSorted();
+        System.out.println("Sorted status: " + (isSorted ? "sorted" : "unsorted"));
+    
+        // Print the content of the list
+        if (head == null) {
+            System.out.println("List is empty.");
+        } else {
+            System.out.print("List content: ");
+    
+            DNode current = head;
+            while (current != null) {
+                System.out.print(current.getData());
+                current = current.getNext();
+                if (current != null) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
         }
-        System.out.println();
-
     }
 
     /**
      * Helper function to check if the list is sorted in ascending order
      * @return true if sorted, false otherwise
      */
-    private boolean isSorted() {
+    public boolean isSorted() {
         if (head == null || head.getNext() == null) {
             return true;
         }
@@ -298,6 +327,28 @@ public class DLL {
         }
         return true;
     }
-}
 
-// End of class declaration
+    /**
+     * Getter for head
+     * @return head
+     */
+    public DNode getHead() {
+        return this.head;
+    }
+
+    /**
+     * Getter for tail
+     * @return tail
+     */
+    public DNode getTail() {
+        return this.tail;
+    }
+
+    /**
+     * Getter for size
+     * @return size
+     */
+    public int getSize() {
+        return this.size;
+    }
+} // End of class declaration
