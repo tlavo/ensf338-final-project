@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.3
+@version 1.4
 @since   1.0
 */package
 
@@ -11,7 +11,7 @@ import mylib.datastructures.nodes.DNode;
 /**
  * Circular Doubly Linked List class
  */
-public class CDLL extends DLL{
+public class CDLL extends DLL {
      /**
      * Default Constructor
      */
@@ -44,6 +44,7 @@ public class CDLL extends DLL{
      * Inserts node object at tail of the list
      * @param node a DNode object
      */
+    @Override
     public void insertTail(DNode node){
         super.insertTail(node);
         tail.setNext(head);
@@ -73,6 +74,7 @@ public class CDLL extends DLL{
     /**
      * Delete tail node
      */
+    @Override
     public void deleteTail(){
         super.deleteTail();
         head.setPrev(tail);
@@ -80,10 +82,10 @@ public class CDLL extends DLL{
     }
 
     /** Prints the list information on the screen, this includes:
-    * List length
-    * Sorted status
-    * List content
-    * Makes sure to show with relevant print statements-readable by the user
+        * List length
+        * Sorted status
+        * List content
+        * Makes sure to show with relevant print statements-readable by the user
     */
     @Override
     public void print() {
