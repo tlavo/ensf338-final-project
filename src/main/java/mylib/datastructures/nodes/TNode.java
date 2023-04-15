@@ -43,24 +43,66 @@ public class TNode {
         this.balance = balance;
     }
 
+    // GETTERS
     /**
-     * Getter Methods
-     * @return the specified attribute
+     * Getter for data
+     * @return data
      */
     public int getData()     { return this.data; }
-    public TNode getLeft()   { return this.left; }
-    public TNode getRight()  { return this.right; }
-    public TNode getParent() { return this.parent; }
-    public int getBalance()  { return this.balance; }
 
     /**
-     * Setter Methods
-     * @param value to be set for the specified attribute
+     * Getter for left
+     * @return left
+     */
+    public TNode getLeft()   { return this.left; }
+
+    /**
+     * Getter for right
+     * @return right
+     */
+    public TNode getRight()  { return this.right; }
+
+    /**
+     * Getter for parent
+     * @return parent
+     */
+    public TNode getParent() { return this.parent; }
+
+    /**
+     * Getter for balance
+     * @return balance
+     */
+    public int getBalance()  { return this.balance; }
+
+    // SETTERS
+    /**
+     * Setter for data
+     * @param data
      */
     public void setData(int data)       { this.data = data; }
+
+    /**
+     * Setter for left
+     * @param left
+     */
     public void setLeft(TNode L)        { this.left = L; }
+
+    /**
+     * Setter for right
+     * @param right
+     */
     public void setRight(TNode R)       { this.right = R; }
+
+    /**
+     * Setter for parent
+     * @param parent
+     */
     public void setParent(TNode P)      { this.parent = P; }
+
+    /**
+     * Setter for balance
+     * @param balance
+     */
     public void setBalance(int balance) { this.balance = balance; }
 
     /**

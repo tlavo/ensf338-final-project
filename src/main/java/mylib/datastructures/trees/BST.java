@@ -10,6 +10,9 @@ import mylib.datastructures.nodes.TNode;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * BST class for a binary search tree
+ */
 public class BST {
     protected TNode root; // references the root of the tree
 

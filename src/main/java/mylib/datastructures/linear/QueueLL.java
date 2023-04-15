@@ -56,22 +56,38 @@ public class QueueLL extends SLL {
 
     /**
      * Overriding methods that aren't applicable to QueueLL
+     * (insertHead())
      */
     @Override
     public void insertHead(SNode node) {}
-
+    /**
+     * Overriding methods that aren't applicable to QueueLL
+     * (insert())
+     */
     @Override
     public void insert(SNode node, int position) {}
-
+    /**
+     * Overriding methods that aren't applicable to QueueLL
+     * (sortedInsert())
+     */
     @Override
     public void sortedInsert(SNode node) {}
-
+    /**
+     * Overriding methods that aren't applicable to QueueLL
+     * (deleteTail())
+     */
     @Override
     public void deleteTail() {}
-
+    /**
+     * Overriding methods that aren't applicable to QueueLL
+     * (delete())
+     */
     @Override
     public void delete(SNode node) {}
-
+    /**
+     * Overriding methods that aren't applicable to QueueLL
+     * (sort())
+     */
     @Override
     public void sort() {}
 } // End of class declaration

@@ -226,19 +226,6 @@ public class AVL extends BST {
     }
 
     /**
-     * Methods that are simply inherited from super (BST)
-     */
-    public TNode search(int val) {
-        return super.search(val);
-    }
-    public void printInOrder() {
-        super.printInOrder();
-    }
-    public void printBF() {
-        super.printBF();
-    }
-
-    /**
      * Private helper function to find minvalue of a tree
      * @param node a TNode object to find minvalues of
      * @return the min value

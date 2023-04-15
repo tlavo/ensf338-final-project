@@ -59,22 +59,38 @@ public class StackLL extends SLL {
 
     /**
      * Overriding methods that aren't applicable to StackLL
+     * (insertTail())
      */
     @Override
     public void insertTail(SNode node) {}
-
+    /**
+     * Overriding methods that aren't applicable to StackLL
+     * (insert())
+     */
     @Override
     public void insert(SNode node, int position) {}
-
+    /**
+     * Overriding methods that aren't applicable to StackLL
+     * (sortedInsert())
+     */
     @Override
     public void sortedInsert(SNode node) {}
-
+    /**
+     * Overriding methods that aren't applicable to StackLL
+     * (deleteTail())
+     */
     @Override
     public void deleteTail() {}
-
+    /**
+     * Overriding methods that aren't applicable to StackLL
+     * (delete())
+     */
     @Override
     public void delete(SNode node) {}
-
+    /**
+     * Overriding methods that aren't applicable to StackLL
+     * (sort())
+     */
     @Override
     public void sort() {}
 } // End of class declaration

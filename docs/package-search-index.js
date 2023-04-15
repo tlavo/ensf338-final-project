@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"mylib.datastructures.linear"},{"l":"mylib.datastructures.nodes"},{"l":"mylib.datastructures.trees"}];updateSearchResults();
