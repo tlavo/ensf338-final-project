@@ -55,7 +55,7 @@ public class TNode {
 
     /**
      * Setter Methods
-     * @param this. the specified attribute
+     * @param value to be set for the specified attribute
      */
     public void setData(int data)       { this.data = data; }
     public void setLeft(TNode L)        { this.left = L; }

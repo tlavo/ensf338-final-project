@@ -36,7 +36,7 @@ public class StackLL extends SLL {
     }
 
     /**
-     * pop();
+     * Pops a node off the stack
      * @return node at the head of the stack and deletes it from stack
      */
     public SNode pop() {
@@ -46,42 +46,35 @@ public class StackLL extends SLL {
     }
 
     /**
-     * peek();
-     * @return head of stack without popping
+     * Returns the data element at the head of the stack without removing it
+     * @return the data element at the head of the stack
+     * @throws IllegalStateException if the stack is empty
      */
-    public SNode peek() {
-        return this.head;
+    public int peek() throws IllegalStateException {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty.");
+        }
+        return head.getData();
     }
 
     /**
-     * @return whether stack is empty or not.
+     * Overriding methods that aren't applicable to StackLL
      */
-    public boolean empty() {
-        return size == 0;
-    }
+    @Override
+    public void insertTail(SNode node) {}
 
     @Override
-    public void insertTail(SNode node) {
-    }
+    public void insert(SNode node, int position) {}
 
     @Override
-    public void insert(SNode node, int position) {
-    }
+    public void sortedInsert(SNode node) {}
 
     @Override
-    public void sortedInsert(SNode node) {
-    }
+    public void deleteTail() {}
 
     @Override
-    public void deleteTail() {
-    }
+    public void delete(SNode node) {}
 
     @Override
-    public void delete(SNode node) {
-    }
-
-    @Override
-    public void sort() {
-    }
-
+    public void sort() {}
 } // End of class declaration

@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.5
+@version 1.6
 @since   1.0
 */
 
@@ -8,9 +8,8 @@ package mylib.datastructures.linear;
 
 import mylib.datastructures.nodes.SNode;
 import static org.junit.Assert.*;
-
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.Before;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -19,88 +18,89 @@ import java.io.PrintStream;
     * StackLL, QueueLL
  */
 public class SQDataStructuresTest {
+    private StackLL stack;
+
+    @Before
+    public void setUpStackLL() {
+        stack = new StackLL();
+    }
+
+
 // StackLL Tests------------------------------------------------------------------------>
-// ADD IN ONCE IMPLEMENTED StackLL
-private StackLL stack;
+    /**
+     * StackLL Push test
+     */
+    @Test
+    public void testPush() {
+        SNode node1 = new SNode(1);
+        SNode node2 = new SNode(2);
 
-@Before
-public void setUpStackLL() {
-    stack = new StackLL();
-}
+        stack.push(node1);
+        stack.push(node2);
 
-@Test
-public void testStackLLPush() {
-    SNode node1 = new SNode(1);
-    SNode node2 = new SNode(2);
+        assertEquals(node2.getData(), stack.peek());
+        assertEquals(2, stack.getSize());
+    }
 
-    stack.push(node1);
-    stack.push(node2);
+    /**
+     * StackLL Pop test
+     */
+    @Test
+    public void testPop() {
+        SNode node1 = new SNode(1);
+        SNode node2 = new SNode(2);
 
-    assertEquals(node2, stack.peek());
-    assertEquals(2, stack.getSize());
-}
+        stack.push(node1);
+        stack.push(node2);
 
-@Test
-public void testStackLLPop() {
-    SNode node1 = new SNode(1);
-    SNode node2 = new SNode(2);
+        SNode poppedNode = stack.pop();
 
-    stack.push(node1);
-    stack.push(node2);
+        assertEquals(node2, poppedNode);
+        assertEquals(1, stack.getSize());
+    }
 
-    SNode poppedNode = stack.pop();
+    /**
+     * StackLL Peak tests
+     */
+    @Test // stack with data
+    public void testStackLLPeek() {
+        StackLL stack = new StackLL();
+        stack.push(new SNode(1));
+        stack.push(new SNode(2));
+        stack.push(new SNode(3));
+        assertEquals(3, stack.peek());
+    }
+         // empty stack
+    @Test(expected = IllegalStateException.class)
+    public void testStackPeekOnEmptyQueue() {
+        StackLL stack = new StackLL();
+        stack.peek();
+    }
 
-    assertEquals(node2, poppedNode);
-    assertEquals(1, stack.getSize());
-}
+    /**
+     * StackLL Print test
+     */
+    @Test
+    public void testStackLLPrint() {
+        SNode node1 = new SNode(1);
+        SNode node2 = new SNode(2);
+        
+        StackLL stack = new StackLL();
+        stack.push(node1);
+        stack.push(node2);
 
-@Test
-public void testStackLLPeek() {
-    SNode node1 = new SNode(1);
-    SNode node2 = new SNode(2);
+        // Redirect stdout to capture printed output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
 
-    stack.push(node1);
-    stack.push(node2);
+        stack.print();
 
-    SNode peekedNode = stack.peek();
+        String expectedOutput = "List length: 2" + System.lineSeparator() + 
+                                "Sorted status: unsorted" + System.lineSeparator() +
+                                "List content: 2 1" + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
+    }
 
-    assertEquals(node2, peekedNode);
-    assertEquals(2, stack.getSize());
-}
-
-@Test
-public void testStackLLEmpty() {
-    assertTrue(stack.empty());
-
-    SNode node1 = new SNode(1);
-    stack.push(node1);
-
-    assertFalse(stack.empty());
-}
-
-/**
- * StackLL Print test
- */
-@Test
-public void testStackLLPrint() {
-    SNode node1 = new SNode(1);
-    SNode node2 = new SNode(2);
-    
-    StackLL stack = new StackLL();
-    stack.push(node1);
-    stack.push(node2);
-
-    // Redirect stdout to capture printed output
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(outContent));
-
-    stack.print();
-
-    String expectedOutput = "List length: 2" + System.lineSeparator() + 
-                            "Sorted status: unsorted" + System.lineSeparator() +
-                            "List content: 2 1" + System.lineSeparator();
-    assertEquals(expectedOutput, outContent.toString());
-}
 
 // QueueLL Tests------------------------------------------------------------------------>
     /**
@@ -128,7 +128,7 @@ public void testStackLLPrint() {
      * QueueLL Peak tests
      */
     @Test // queue with data
-    public void testPeek() {
+    public void testQueueLLPeek() {
         QueueLL queue = new QueueLL();
         queue.enqueue(new SNode(1));
         queue.enqueue(new SNode(2));

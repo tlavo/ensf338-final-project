@@ -116,6 +116,7 @@ public class SLL {
         * if found it returns the object
         * otherwise returns null
      * @param node a SNode object
+     * @return current a SNode object or null
      */
     public SNode search(SNode node) {
         SNode current = head;
@@ -284,7 +285,7 @@ public class SLL {
      * Helper function to check if the list is sorted in ascending order
      * @return true if sorted, false otherwise
      */
-    public boolean isSorted() {
+    protected boolean isSorted() {
         if (head == null || head.getNext() == null) {
             return true;
         }
@@ -302,7 +303,7 @@ public class SLL {
      * Helper function to check if list is empty
      * @return true if empty, false otherwise
      */
-    public boolean isEmpty() {
+    protected boolean isEmpty() {
         return size == 0;
     }
 
