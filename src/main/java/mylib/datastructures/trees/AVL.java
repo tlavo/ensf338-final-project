@@ -1,3 +1,9 @@
+/**
+@author  Batool Hussaini Syeda & Teresa Lavoie
+@version 1.8
+@since   1.0
+*/
+
 package mylib.datastructures.trees;
 
 import mylib.datastructures.nodes.TNode;
@@ -15,8 +21,8 @@ public class AVL extends BST {
     }
 
     /**
-     * Overloaded Constructor
-     * @param val - value of node
+     * Overloaded Constructor 1
+     * @param val int value to be set within root TNode
      */
     public AVL(int val) {
        super(val);
@@ -24,13 +30,14 @@ public class AVL extends BST {
     }
 
     /**
-     * Overloaded Constructor - constructor performs a self balancing algorithim on the tree when setting a node = root
-     * @param node - node to set equal to root
+     * Overloaded Constructor 2 
+        * self balancing algorithim on the tree when setting a this.root = root
+     * @param root a Tnode object
      */
-    public AVL(TNode node) {
+    public AVL(TNode root) {
         this.root = null;
-        if (node.getLeft() != null || node.getRight() != null) {
-            TNode temp = node;
+        if (root.getLeft() != null || root.getRight() != null) {
+            TNode temp = root;
             Stack<TNode> stack = new Stack<TNode>();
 
             while (temp != null || !stack.isEmpty()) {
@@ -45,31 +52,32 @@ public class AVL extends BST {
                 temp = temp.getRight();
             }
         } else {
-            this.root = node;
+            this.root = root;
         }
     }
 
     /**
-     * getRoot() - getter method for root
-     * @return - root
+     * Getter for root
+     * @return root
      */
     public TNode getRoot() {
         return this.root;
     }
 
     /**
-     * setRoot() - setter method for root
-     * @param node - node to set root
+     * Setter for root
+     * @param root
      */
-    public void setRoot(TNode node) {
-        this.root = node;
-        if (node.getLeft() != null || node.getRight() != null) {
-            root = balanceTree(node);
+    public void setRoot(TNode root) {
+        this.root = root;
+        if (root.getLeft() != null || root.getRight() != null) {
+            root = balanceTree(root);
         }
     }
 
     /**
-     * insert() - inserts a node into the tree then balances the tree
+     * Inserts a node into the tree 
+        * then balances the tree
      * @param val - integer value for node
      */
     public void insert(int val) {
@@ -77,10 +85,11 @@ public class AVL extends BST {
     }
 
     /**
-     * insert() - inserts a node into the tree then balances the tree
-     * @param node - node to insert into the tree
-     * @param val - value to insert
-     * @return - root node of the balanced tree
+     * Inserts a node into the tree
+        * then balances the tree
+     * @param node to insert into the tree
+     * @param val int value to insert
+     * @return root node of the balanced tree
      */
     public TNode insert(TNode node, int val) {
         if (node == null) {
@@ -117,9 +126,9 @@ public class AVL extends BST {
     }
 
     /**
-     * Helper method to calculate the height of a node in the AVL tree
-     * @param node - the node whose height is to be calculated
-     * @return - height of the node
+     * Private helper method to calculate the height of a node in the AVL tree
+     * @param node a TNode object whose height is to be calculated
+     * @return height of the node
      */
     private int height(TNode node) {
         if (node == null) {
@@ -129,9 +138,9 @@ public class AVL extends BST {
     }
 
     /**
-     * Helper method to calculate the balance factor of a node in the AVL tree
-     * @param node - the node whose balance factor is to be calculated
-     * @return - balance factor of the node
+     * Protected helper method (due to testing) to calculate the balance factor of a node
+     * @param node a TNode object whose balance factor is to be calculated
+     * @return balance factor of the node
      */
     protected int balanceFactor(TNode node) {
         if (node == null) {
@@ -141,9 +150,9 @@ public class AVL extends BST {
     }
 
     /**
-     * Helper method to perform a right rotation on a node in the AVL tree
-     * @param node - the node to be rotated
-     * @return - the new root node after rotation
+     * Private helper method to perform a right rotation on a node in the AVL tree
+     * @param node a TNode object to be rotated
+     * @return the new root node after rotation
      */
     private TNode rotateRight(TNode node) {
         TNode newRoot = node.getLeft();
@@ -155,9 +164,9 @@ public class AVL extends BST {
     }
 
     /**
-     * Helper method to perform a left rotation on a node in the AVL tree
-     * @param node - the node to be rotated
-     * @return - the new root node after rotation
+     * Private helper method to perform a left rotation on a node in the AVL tree
+     * @param node a TNode object to be rotated
+     * @return the new root node after rotation
      */
     private TNode rotateLeft(TNode node) {
         TNode newRoot = node.getRight();
@@ -169,7 +178,7 @@ public class AVL extends BST {
     }
 
     /**
-     * delete() - call delete with root node
+     * Deletes by calling delete with root node
      * @param value - value of node to be deleted
      */
     @Override
@@ -178,20 +187,19 @@ public class AVL extends BST {
     }
 
     /**
-     * delete() - delete the node with the matching value
+     * Private helper function for delete() to delete the node with val
      * @param node - root node of tree to delete
-     * @param value - value to delete
-     * @return - new balanced tree with deleted node
+     * @param val int value to be delete
+     * @return new balanced tree with deleted node
      */
-    public TNode delete(TNode node, int value) {
+    private TNode delete(TNode node, int val) {
         if (node == null) {
             return node;
         }
-
-        if (node.getData() > value) { // node < value
-            node.setLeft(delete(node.getLeft(), value));
-        } else if (node.getData() < value) { // node > value
-            node.setRight(delete(node.getRight(), value));
+        if (node.getData() > val) { // node < value
+            node.setLeft(delete(node.getLeft(), val));
+        } else if (node.getData() < val) { // node > value
+            node.setRight(delete(node.getRight(), val));
         } else {
             if (node.getLeft() == null || node.getRight() == null) {
                 TNode finder;
@@ -213,30 +221,19 @@ public class AVL extends BST {
                 node.setRight(delete(node.getRight(), finder));
             }
         }
-
         node = balanceTree(node);
         return node;
     }
 
     /**
-     * calls parent class search method
-     * 
-     * @return - node with value in the tree.
+     * Methods that are simply inherited from super (BST)
      */
     public TNode search(int val) {
         return super.search(val);
     }
-
-    /**
-     * printInOrder() - calls parent method
-     */
     public void printInOrder() {
         super.printInOrder();
     }
-
-    /**
-     * printBF() - calls parent method
-     */
     public void printBF() {
         super.printBF();
     }
