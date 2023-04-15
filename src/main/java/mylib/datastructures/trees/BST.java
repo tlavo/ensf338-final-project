@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BST {
-    private TNode root; // references the root of the tree
+    protected TNode root; // references the root of the tree
 
     /**
      * Default Constructor
