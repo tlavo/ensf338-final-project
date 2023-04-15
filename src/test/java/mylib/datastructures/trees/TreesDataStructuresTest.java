@@ -1,6 +1,6 @@
 /**
 @author  Batool Hussaini Syeda & Teresa Lavoie
-@version 1.1
+@version 1.3
 @since   1.0
 */
 
@@ -125,11 +125,16 @@ public class TreesDataStructuresTest {
         btree.insert(7);
         btree.insert(1);
         btree.insert(4);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
         btree.printInOrder();
-        // expected output: 1 3 4 5 7 10
+        String expectedOutput = "1 3 4 5 7 10 " + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
     }
     @Test // printBF()
-    public void testPrintBF() {
+    public void testBSTPrintBF() {
         BST bst = new BST();
         bst.insert(new TNode(10, 0, null, null, null));
         bst.insert(new TNode(5, 0, null, null, null));
@@ -150,5 +155,224 @@ public class TreesDataStructuresTest {
 
 
 // AVL Tests---------------------------------------------------------------------------->
-// ADD IN ONCE IMPLEMENTED AVL
-}
+    /**
+     * AVL Insert & Delete tests
+     */
+    @Test // insert()
+    public void testAVLInsert() {
+        AVL avl = new AVL(); 
+        avl.insert(4);
+        avl.insert(2);
+        avl.insert(6);
+        avl.insert(1);
+        avl.insert(3);
+        avl.insert(5);
+        avl.insert(7);
+
+        assertEquals(4, avl.getRoot().getData());
+        assertEquals(2, avl.getRoot().getLeft().getData());
+        assertEquals(6, avl.getRoot().getRight().getData());
+        assertEquals(1 , avl.getRoot().getLeft().getLeft().getData());
+        assertEquals(3 , avl.getRoot().getLeft().getRight().getData());
+        assertEquals(5 , avl.getRoot().getRight().getLeft().getData());
+        assertEquals(7 , avl.getRoot().getRight().getRight().getData());
+    }
+    @Test // delete()
+    public void testAVLDelete() {
+        AVL avl = new AVL(); 
+        avl.insert(4);
+        avl.insert(2);
+        avl.insert(6);
+        avl.insert(1);
+        avl.insert(3);
+        avl.insert(5);
+        avl.insert(7);
+
+        avl.delete(2);
+        // AVL should be balanced
+        assertNotNull(avl.search(4));
+        assertNotNull(avl.search(6));
+        assertNotNull(avl.search(1));
+        assertNotNull(avl.search(3));
+        assertNotNull(avl.search(5));
+        assertNotNull(avl.search(7));
+        assertNull(avl.search(2));
+    }
+
+    /**
+     * AVL Search test
+     */
+    @Test
+    public void testAVLSearch() {
+        AVL avl = new AVL(); 
+        avl.insert(4);
+        avl.insert(2);
+        avl.insert(6);
+        avl.insert(1);
+        avl.insert(3);
+        avl.insert(5);
+        avl.insert(7);
+        TNode result = avl.search(3);
+        assertEquals(3, result.getData());
+    }
+
+    /**
+     * AVL Balance test
+     */
+    @Test
+    public void testAVLBalance() {
+        AVL avl = new AVL();
+        avl.insert(4);
+        avl.insert(2);
+        avl.insert(6);
+        avl.insert(1);
+        avl.insert(3);
+        avl.insert(5);
+        avl.insert(7);
+        TNode root = avl.getRoot();
+        assertEquals(0, avl.balanceFactor(root));
+        assertEquals(0, avl.balanceFactor(root.getLeft()));
+        assertEquals(0, avl.balanceFactor(root.getRight()));
+    }
+
+    /**
+    * 4 cases of insertion tests (Left, Right, Rightleft, Leftright)
+    */
+    @Test // Left
+    public void testLeftRotation() {
+        AVL avl = new AVL();
+        avl.insert(1);
+        avl.insert(2);
+        avl.insert(3);
+
+        assertEquals(2, avl.getRoot().getData());
+        assertEquals(1, avl.getRoot().getLeft().getData());
+        assertEquals(3, avl.getRoot().getRight().getData());
+    }
+    @Test // Right
+    public void testRightRotation() {
+        AVL avl = new AVL();
+        avl.insert(5);
+        avl.insert(3);
+        avl.insert(2);
+
+        assertEquals(3, avl.getRoot().getData());
+        assertEquals(2, avl.getRoot().getLeft().getData());
+        assertEquals(5, avl.getRoot().getRight().getData());
+    }
+    @Test // RightLeft
+    public void testRightLeftRotation() {
+        AVL avl = new AVL();
+        avl.insert(3);
+        avl.insert(1);
+        avl.insert(2);
+
+        assertEquals(2, avl.getRoot().getData());
+        assertEquals(1, avl.getRoot().getLeft().getData());
+        assertEquals(3, avl.getRoot().getRight().getData());
+    }
+    @Test // LeftRight
+    public void testLeftRightRotation() {
+        AVL avl = new AVL();
+        avl.insert(5);
+        avl.insert(3);
+        avl.insert(2);
+
+        assertEquals(3, avl.getRoot().getData());
+        assertEquals(2, avl.getRoot().getLeft().getData());
+        assertEquals(5, avl.getRoot().getRight().getData());
+    }
+
+    /**
+     * AVL Specific Delete tests
+     */
+    @Test // Deleting a node with one child
+    public void testDeleteNodeWithOneChild() {
+        AVL avl = new AVL();
+        avl.insert(5);
+        avl.insert(3);
+        avl.insert(7);
+        avl.insert(6);
+        avl.delete(7);
+        assertNotNull(avl.search(5));
+        assertNotNull(avl.search(3));
+        assertNotNull(avl.search(6));
+        assertNull(avl.search(7));
+    }
+    @Test // Deleting a node with two children
+    public void testDeleteNodeWithTwoChildren() {
+        AVL avl = new AVL();
+        avl.insert(5);
+        avl.insert(3);
+        avl.insert(7);
+        avl.insert(2);
+        avl.insert(4);
+        avl.insert(6);
+        avl.insert(8);
+        avl.delete(7); 
+    
+        assertNotNull(avl.search(2));
+        assertNotNull(avl.search(3));
+        assertNotNull(avl.search(4));
+        assertNotNull(avl.search(5));
+        assertNotNull(avl.search(6));
+        assertNotNull(avl.search(8));
+    }
+
+    /**
+     * AVL Duplicate Insert Test
+     */
+    @Test
+    public void testDuplicateInsertion() {
+        AVL avl = new AVL();
+        avl.insert(5);
+        avl.insert(3);
+        avl.insert(7);
+        avl.insert(5);
+
+        assertNull(avl.search(4));
+        assertEquals(5, avl.getRoot().getData());
+        assertEquals(3, avl.getRoot().getLeft().getData());
+        assertEquals(7, avl.getRoot().getRight().getData());
+    }
+
+    /**
+     * AVL Print tests
+     */
+    @Test // printInOrder()
+    public void testAVLPrintInOrder() {
+        AVL avl = new AVL();
+        avl.insert(5);
+        avl.insert(10);
+        avl.insert(3);
+        avl.insert(7);
+        avl.insert(1);
+        avl.insert(4);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        avl.printInOrder();
+        String expectedOutput = "1 3 4 5 7 10 " + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
+    }
+    @Test // printBF()
+    public void testAVLPrintBF() {
+        AVL avl = new AVL(); 
+        avl.insert(4);
+        avl.insert(2);
+        avl.insert(6);
+        avl.insert(1);
+        avl.insert(3);
+        avl.insert(5);
+        avl.insert(7);
+        
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        avl.printBF();
+        String expectedOutput = "4 " + System.lineSeparator() +
+                                "2 6 " + System.lineSeparator() +
+                                "1 3 5 7 " + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
+    }
+} // End of class declaration

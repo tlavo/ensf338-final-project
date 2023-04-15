@@ -1,8 +1,7 @@
 package mylib.datastructures.trees;
 
-import java.util.Stack;
-
 import mylib.datastructures.nodes.TNode;
+import java.util.Stack;
 
 /**
  * AVL class for a self balancing binary tree
@@ -77,97 +76,97 @@ public class AVL extends BST {
         this.root = insert(this.root, val);
     }
 
-/**
- * insert() - inserts a node into the tree then balances the tree
- * @param node - node to insert into the tree
- * @param val - value to insert
- * @return - root node of the balanced tree
- */
-public TNode insert(TNode node, int val) {
-    if (node == null) {
-        return new TNode(val, 0, null, null, null);
-    }
+    /**
+     * insert() - inserts a node into the tree then balances the tree
+     * @param node - node to insert into the tree
+     * @param val - value to insert
+     * @return - root node of the balanced tree
+     */
+    public TNode insert(TNode node, int val) {
+        if (node == null) {
+            return new TNode(val, 0, null, null, null);
+        }
 
-    if (node.getData() > val) {
-        node.setLeft(insert(node.getLeft(), val));
-    } else if (node.getData() < val) {
-        node.setRight(insert(node.getRight(), val));
-    } else {
+        if (node.getData() > val) {
+            node.setLeft(insert(node.getLeft(), val));
+        } else if (node.getData() < val) {
+            node.setRight(insert(node.getRight(), val));
+        } else {
+            return node;
+        }
+
+        node.setBalance(1 + Math.max(height(node.getLeft()), height(node.getRight())));
+        int balance = balanceFactor(node);
+        if (balance > 1) {
+            if (node.getLeft().getData() > val) {
+                return rotateRight(node);
+            } else if (node.getLeft().getData() < val) {
+                node.setLeft(rotateLeft(node.getLeft()));
+                return rotateRight(node);
+            }
+        }
+        if (balance < -1) {
+            if (node.getRight().getData() < val) {
+                return rotateLeft(node);
+            } else if (node.getRight().getData() > val) {
+                node.setRight(rotateRight(node.getRight()));
+                return rotateLeft(node);
+            }
+        }
         return node;
     }
 
-    node.setBalance(1 + Math.max(height(node.getLeft()), height(node.getRight())));
-    int balance = balanceFactor(node);
-    if (balance > 1) {
-        if (node.getLeft().getData() > val) {
-            return rotateRight(node);
-        } else if (node.getLeft().getData() < val) {
-            node.setLeft(rotateLeft(node.getLeft()));
-            return rotateRight(node);
+    /**
+     * Helper method to calculate the height of a node in the AVL tree
+     * @param node - the node whose height is to be calculated
+     * @return - height of the node
+     */
+    private int height(TNode node) {
+        if (node == null) {
+            return -1;
         }
+        return node.getBalance();
     }
-    if (balance < -1) {
-        if (node.getRight().getData() < val) {
-            return rotateLeft(node);
-        } else if (node.getRight().getData() > val) {
-            node.setRight(rotateRight(node.getRight()));
-            return rotateLeft(node);
+
+    /**
+     * Helper method to calculate the balance factor of a node in the AVL tree
+     * @param node - the node whose balance factor is to be calculated
+     * @return - balance factor of the node
+     */
+    protected int balanceFactor(TNode node) {
+        if (node == null) {
+            return 0;
         }
+        return height(node.getLeft()) - height(node.getRight());
     }
-    return node;
-}
 
-/**
- * Helper method to calculate the height of a node in the AVL tree
- * @param node - the node whose height is to be calculated
- * @return - height of the node
- */
-private int height(TNode node) {
-    if (node == null) {
-        return -1;
+    /**
+     * Helper method to perform a right rotation on a node in the AVL tree
+     * @param node - the node to be rotated
+     * @return - the new root node after rotation
+     */
+    private TNode rotateRight(TNode node) {
+        TNode newRoot = node.getLeft();
+        node.setLeft(newRoot.getRight());
+        newRoot.setRight(node);
+        node.setBalance(1 + Math.max(height(node.getLeft()), height(node.getRight())));
+        newRoot.setBalance(1 + Math.max(height(newRoot.getLeft()), height(newRoot.getRight())));
+        return newRoot;
     }
-    return node.getBalance();
-}
 
-/**
- * Helper method to calculate the balance factor of a node in the AVL tree
- * @param node - the node whose balance factor is to be calculated
- * @return - balance factor of the node
- */
-protected int balanceFactor(TNode node) {
-    if (node == null) {
-        return 0;
+    /**
+     * Helper method to perform a left rotation on a node in the AVL tree
+     * @param node - the node to be rotated
+     * @return - the new root node after rotation
+     */
+    private TNode rotateLeft(TNode node) {
+        TNode newRoot = node.getRight();
+        node.setRight(newRoot.getLeft());
+        newRoot.setLeft(node);
+        node.setBalance(1 + Math.max(height(node.getLeft()), height(node.getRight())));
+        newRoot.setBalance(1 + Math.max(height(newRoot.getLeft()), height(newRoot.getRight())));
+        return newRoot;
     }
-    return height(node.getLeft()) - height(node.getRight());
-}
-
-/**
- * Helper method to perform a right rotation on a node in the AVL tree
- * @param node - the node to be rotated
- * @return - the new root node after rotation
- */
-private TNode rotateRight(TNode node) {
-    TNode newRoot = node.getLeft();
-    node.setLeft(newRoot.getRight());
-    newRoot.setRight(node);
-    node.setBalance(1 + Math.max(height(node.getLeft()), height(node.getRight())));
-    newRoot.setBalance(1 + Math.max(height(newRoot.getLeft()), height(newRoot.getRight())));
-    return newRoot;
-}
-
-/**
- * Helper method to perform a left rotation on a node in the AVL tree
- * @param node - the node to be rotated
- * @return - the new root node after rotation
- */
-private TNode rotateLeft(TNode node) {
-    TNode newRoot = node.getRight();
-    node.setRight(newRoot.getLeft());
-    newRoot.setLeft(node);
-    node.setBalance(1 + Math.max(height(node.getLeft()), height(node.getRight())));
-    newRoot.setBalance(1 + Math.max(height(newRoot.getLeft()), height(newRoot.getRight())));
-    return newRoot;
-}
 
     /**
      * delete() - call delete with root node
@@ -179,45 +178,45 @@ private TNode rotateLeft(TNode node) {
     }
 
     /**
- * delete() - delete the node with the matching value
- * @param node - root node of tree to delete
- * @param value - value to delete
- * @return - new balanced tree with deleted node
- */
-public TNode delete(TNode node, int value) {
-    if (node == null) {
+     * delete() - delete the node with the matching value
+     * @param node - root node of tree to delete
+     * @param value - value to delete
+     * @return - new balanced tree with deleted node
+     */
+    public TNode delete(TNode node, int value) {
+        if (node == null) {
+            return node;
+        }
+
+        if (node.getData() > value) { // node < value
+            node.setLeft(delete(node.getLeft(), value));
+        } else if (node.getData() < value) { // node > value
+            node.setRight(delete(node.getRight(), value));
+        } else {
+            if (node.getLeft() == null || node.getRight() == null) {
+                TNode finder;
+                if (node.getLeft() != null) {
+                    finder = node.getLeft();
+                } else {
+                    finder = node.getRight();
+                }
+
+                if (finder == null) {
+                    finder = node;
+                    node = null;
+                } else {
+                    node = finder;
+                }
+            } else {
+                int finder = minValue(node.getRight());
+                node.setData(finder);
+                node.setRight(delete(node.getRight(), finder));
+            }
+        }
+
+        node = balanceTree(node);
         return node;
     }
-
-    if (node.getData() > value) { // node < value
-        node.setLeft(delete(node.getLeft(), value));
-    } else if (node.getData() < value) { // node > value
-        node.setRight(delete(node.getRight(), value));
-    } else {
-        if (node.getLeft() == null || node.getRight() == null) {
-            TNode finder;
-            if (node.getLeft() != null) {
-                finder = node.getLeft();
-            } else {
-                finder = node.getRight();
-            }
-
-            if (finder == null) {
-                finder = node;
-                node = null;
-            } else {
-                node = finder;
-            }
-        } else {
-            int finder = minValue(node.getRight());
-            node.setData(finder);
-            node.setRight(delete(node.getRight(), finder));
-        }
-    }
-
-    node = balanceTree(node);
-    return node;
-}
 
     /**
      * calls parent class search method
@@ -243,9 +242,9 @@ public TNode delete(TNode node, int value) {
     }
 
     /**
-     * minValue() - private helper function to find minvalue of a tree
-     * @param node - node to find minvalues of
-     * @return - returns the min value
+     * Private helper function to find minvalue of a tree
+     * @param node a TNode object to find minvalues of
+     * @return the min value
      */
     private int minValue(TNode node) {
         int minValue = node.getData();
@@ -257,9 +256,9 @@ public TNode delete(TNode node, int value) {
     }
 
     /**
-     * balanceTree() - private helper function that balances the tree 
-     * @param node - node to perform the balance on
-     * @return - returns a balanced subtree for the given node
+     * Private helper function that balances the tree 
+     * @param node a TNode object to perform the balance on
+     * @return a balanced subtree for the node parameter
      */
     private TNode balanceTree(TNode node) {
         if (node == null) {
@@ -284,7 +283,6 @@ public TNode delete(TNode node, int value) {
                 return rotateRight(node);
             }
         }
-
         return node;
     } 
-}// End of class declaration
+} // End of class declaration
